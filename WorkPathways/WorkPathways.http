@@ -1,0 +1,6 @@
+@WorkPathways_HostAddress = http://localhost:5156
+
+GET {{WorkPathways_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
