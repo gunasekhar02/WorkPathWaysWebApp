@@ -14,6 +14,7 @@ namespace WorkPathways.WorkPathways.Controllers
         public WorkPathwayController(WorkPathwayService workPathwayService) { 
             _workPathwayService = workPathwayService;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -24,7 +25,7 @@ namespace WorkPathways.WorkPathways.Controllers
         {
             try
             {
-                var result =  await _workPathwayService.CreateUser(user);
+                var result = await _workPathwayService.CreateUser(user);
                 var response = new ResponseStructure<User>
                 {
                     Success = true,
@@ -34,7 +35,8 @@ namespace WorkPathways.WorkPathways.Controllers
 
                 return Ok(response);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 var errorResponse = new ResponseStructure<User>
                 {
                     Success = false,
@@ -44,6 +46,39 @@ namespace WorkPathways.WorkPathways.Controllers
                 return StatusCode(500, errorResponse);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var result = await _workPathwayService.GetAllUsers();
+                var response = new ResponseStructure<List<User>>
+                {
+                    Success = true,
+                    Data = result,
+                    ErrorMessage = null
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponseStructure<User>
+                {
+                    Success = false,
+                    Data = null,
+                    ErrorMessage = ex.Message
+                };
+                return StatusCode(500, errorResponse);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -175,15 +210,15 @@ namespace WorkPathways.WorkPathways.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="user"></param>
         /// <returns></returns>
-        /// 
-        [HttpGet("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        [HttpPost("AddExperiance")]
+        public async Task<IActionResult> AddExperiance(List<Experiance> experiance)
         {
             try
             {
-                var result = await _workPathwayService.GetAllUsers();
-                var response = new ResponseStructure<List<User>>
+                var result = await _workPathwayService.AddExperiance(experiance);
+                var response = new ResponseStructure<List<Experiance>>
                 {
                     Success = true,
                     Data = result,
@@ -194,7 +229,7 @@ namespace WorkPathways.WorkPathways.Controllers
             }
             catch (Exception ex)
             {
-                var errorResponse = new ResponseStructure<User>
+                var errorResponse = new ResponseStructure<Experiance>
                 {
                     Success = false,
                     Data = null,
@@ -203,8 +238,5 @@ namespace WorkPathways.WorkPathways.Controllers
                 return StatusCode(500, errorResponse);
             }
         }
-
-
-
     }
 }

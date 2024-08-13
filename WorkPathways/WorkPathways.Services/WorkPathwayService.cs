@@ -112,9 +112,78 @@ namespace WorkPathways.WorkPathways.Services
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="experiance"></param>
+        /// <returns></returns>
+        public async Task<List<Experiance>>  AddExperiance(List<Experiance> experiance) {
+            try
+            {
+                var response = await _dataAccessService.AddExperiance(experiance);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<Experiance>> GetExperianceByUserId(Guid userId) {
+            try
+            {
+                var response = await _dataAccessService.GetExperianceByUserId(userId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="experiance"></param>
+        /// <returns></returns>
+        public async Task<string> UpdateExperiance(List<Experiance> experiance) {
+            try
+            {
+                var response = await _dataAccessService.UpdateExperiance(experiance);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<string> DeleteExperianceByUserId(Guid userId) {
+            try
+            {
+                var response = await _dataAccessService.DeleteExperianceByUserId(userId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
