@@ -42,7 +42,7 @@ namespace WorkPathways.WorkPathways.DataAccess
                 return user;
             }
             catch (Exception ex) {
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -67,7 +67,7 @@ namespace WorkPathways.WorkPathways.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -85,7 +85,7 @@ namespace WorkPathways.WorkPathways.DataAccess
                 return "Successfully Deleted the user details of " + Convert.ToString(userId);
             }
             catch (Exception ex) {
-                throw;
+                throw new Exception(ex.Message);
             }
 
         }
@@ -105,7 +105,7 @@ namespace WorkPathways.WorkPathways.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -118,13 +118,13 @@ namespace WorkPathways.WorkPathways.DataAccess
         {
             try
             {
-                var filter = Builders<User>.Filter.Eq(u => u.FirstName, name);
+                var filter = Builders<User>.Filter.Regex(u => u.FirstName, new MongoDB.Bson.BsonRegularExpression(name, "i"));
                 var response = await _collectionUser.Find(filter).FirstOrDefaultAsync();
                 return response;
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
         }
@@ -141,10 +141,133 @@ namespace WorkPathways.WorkPathways.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="experiance"></param>
+        /// <returns></returns>
+        public async Task<List<Experiance>> AddExperiance(List<Experiance> experiance)
+        {
+            try
+            {
+                var userId = experiance[0].Id;
+                var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
+                var user = await _collectionUser.Find(filter).FirstOrDefaultAsync();
+                if (user.Experiance?.Count==0)
+                {
+                    user.Experiance = new List<Experiance>();
+                    foreach(var exp in experiance)
+                    {
+                        user.Experiance.Add(exp);
+                    }
+                }
+                else
+                {
+                    foreach (var exp in experiance)
+                    {
+                        user.Experiance?.Add(exp);
+                    }
+                }
+                await UpdateUser(user);
+                return experiance;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<Experiance>> GetExperianceByUserId(Guid userId)
+        {
+            try
+            {
+                var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
+                var user = await _collectionUser.Find(filter).FirstOrDefaultAsync();
+                if (user.Experiance?.Count > 0) 
+                {
+                    return user.Experiance;
+                }
+                else
+                {
+                    throw new Exception("User has No Experiance");
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="experiance"></param>
+        /// <returns></returns>
+        public async Task<string> UpdateExperiance(List<Experiance> experiance)
+        {
+            try
+            {
+                var userId = experiance[0].Id;
+                var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
+                var user = await _collectionUser.Find(filter).FirstOrDefaultAsync();
+                if (user.Experiance?.Count > 0)
+                {
+                    user.Experiance = experiance;
+                    return "updated Experiance Successfully";
+                }
+                else
+                {
+                    throw new Exception("User has No Experiance to update");
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<string> DeleteExperianceByUserId(Guid userId)
+        {
+            try
+            {
+                var filter = Builders<Experiance>.Filter.Eq(u => u.Id, userId);
+                // Delete experiences associated with the userId
+                var result = await _collectionExperiance.DeleteManyAsync(filter);
+
+                if (result.DeletedCount > 0)
+                {
+                    return $"{result.DeletedCount} experience(s) deleted successfully.";
+                }
+                else
+                {
+                    throw new Exception("User has no experience to delete.");
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
 
     }
