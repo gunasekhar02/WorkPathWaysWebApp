@@ -12,8 +12,13 @@ namespace WorkPathways.WorkPathways.Models
         public string? LastName { get; set; }
         public string? Email { get; set; }
         public string? City {  get; set; }
-        public List<Experiance>? Experiance { get; set; }
-        public DesiredCompanies? DesiredCompanies { get; set; }
-        public List<Accomplisments>? Accomplisments { get; set; }
+    }
+
+    public class AddUserDto
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
+        public string? City { get; set; }
     }
 }

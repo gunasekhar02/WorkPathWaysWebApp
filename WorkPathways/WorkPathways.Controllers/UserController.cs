@@ -1,5 +1,6 @@
-﻿/*using Microsoft.AspNetCore.Mvc;
-using WorkPathways.WorkPathways.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using WorkPathways.WorkPathways.Services.Interfaces;
+using WorkPathways.WorkPathways.Services.Services;
 using WorkPathways.WorkPathways.Models;
 using Amazon.Runtime.Internal;
 using MongoDB.Bson;
@@ -8,12 +9,12 @@ namespace WorkPathways.WorkPathways.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WorkPathwayController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IWorkPathwayService _workPathwayService;
-        public WorkPathwayController(WorkPathwayService workPathwayService)
+        private readonly IUserService _userService;
+        public UserController(UserService userService)
         {
-            _workPathwayService = workPathwayService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace WorkPathways.WorkPathways.Controllers
                     Email = userDto.Email,
                     City = userDto.City,
                 };
-                var result = await _workPathwayService.CreateUser(user);
+                var result = await _userService.CreateUser(user);
                 var response = new ResponseStructure<User>
                 {
                     Success = true,
@@ -66,7 +67,7 @@ namespace WorkPathways.WorkPathways.Controllers
         {
             try
             {
-                var result = await _workPathwayService.GetAllUsers();
+                var result = await _userService.GetAllUsers();
                 var response = new ResponseStructure<List<User>>
                 {
                     Success = true,
@@ -94,10 +95,11 @@ namespace WorkPathways.WorkPathways.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("EditUser")]
-        public async Task<IActionResult> EditUser(User user) {
+        public async Task<IActionResult> EditUser(User user)
+        {
             try
             {
-                var result = await _workPathwayService.UpdateUser(user);
+                var result = await _userService.UpdateUser(user);
                 var response = new ResponseStructure<string>
                 {
                     Success = true,
@@ -127,10 +129,11 @@ namespace WorkPathways.WorkPathways.Controllers
         /// <returns></returns>
         /// 
         [HttpGet("getUserByUserId/{userId}")]
-        public async Task<IActionResult> GetUserById(Guid userId) {
+        public async Task<IActionResult> GetUserById(Guid userId)
+        {
             try
             {
-                var result = await _workPathwayService.GetUserById(userId);
+                var result = await _userService.GetUserById(userId);
                 var response = new ResponseStructure<User>
                 {
                     Success = true,
@@ -159,10 +162,11 @@ namespace WorkPathways.WorkPathways.Controllers
         /// <param name="firstName"></param>
         /// <returns></returns>
         [HttpGet("getUserByFirstName/{firstName}")]
-        public async Task<IActionResult> GetUserByFirstName(string firstName) {
+        public async Task<IActionResult> GetUserByFirstName(string firstName)
+        {
             try
             {
-                var result = await _workPathwayService.GetUserByFirstName(firstName);
+                var result = await _userService.GetUserByFirstName(firstName);
                 var response = new ResponseStructure<User>
                 {
                     Success = true,
@@ -190,10 +194,11 @@ namespace WorkPathways.WorkPathways.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("DeleteUserByUserId/{userId}")]
-        public async Task<IActionResult> DeleteUser(Guid userId) {
+        public async Task<IActionResult> DeleteUser(Guid userId)
+        {
             try
             {
-                var result =await _workPathwayService.DeleteUser(userId);
+                var result = await _userService.DeleteUser(userId);
                 var response = new ResponseStructure<string>
                 {
                     Success = true,
@@ -216,4 +221,3 @@ namespace WorkPathways.WorkPathways.Controllers
         }
     }
 }
-*/

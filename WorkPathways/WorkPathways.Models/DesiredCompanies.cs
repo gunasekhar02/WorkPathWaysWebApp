@@ -8,6 +8,8 @@ namespace WorkPathways.WorkPathways.Models
         [BsonId]
         [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+
         public string? DesiredRole { get; set; }
         public string? DesiredCompanyName { get; set; }
     }
