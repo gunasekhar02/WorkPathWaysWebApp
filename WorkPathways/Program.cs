@@ -1,5 +1,5 @@
-using WorkPathways.WorkPathways.DataAccess;
-using WorkPathways.WorkPathways.Services;
+using WorkPathways.WorkPathways.DataAccess.Services;
+using WorkPathways.WorkPathways.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<WorkPathwayService>();
-builder.Services.AddSingleton<WorkPathwaysDataAccessService>();
+builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<UserDataAccessService>();
+builder.Services.AddSingleton<ExperianceService>();
+builder.Services.AddSingleton<ExperianceDataAccessService>();
+/*builder.Services.AddSingleton<AccomplishmentsService>();
+builder.Services.AddSingleton<AccomplishmentsDataAccessService>();
+builder.Services.AddSingleton<DesiredCompaniesService>();
+builder.Services.AddSingleton<DesiredCompaniesDataAccessService>();*/
 
 var app = builder.Build();
 
