@@ -1,48 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using WorkPathways.WorkPathways.Models;
 using WorkPathways.WorkPathways.Services.Interfaces;
 using WorkPathways.WorkPathways.Services.Services;
+
+
 
 namespace WorkPathways.WorkPathways.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ExperianceController: ControllerBase
+    public class DesiredCompaniesController:ControllerBase
     {
-        private readonly IExperianceService _experianceService;
-        public ExperianceController(ExperianceService experianceService)
+        private readonly IDesiredCompaniesService _desiredCompaniesService;
+
+        public DesiredCompaniesController(DesiredCompaniesService desiredCompaniesService)
         {
-            _experianceService = experianceService;
+            _desiredCompaniesService = desiredCompaniesService;
         }
-
-
 
 /// <summary>
 /// 
 /// </summary>
-/// <param name="experiance"></param>
+/// <param name="desiredCompanies"></param>
 /// <returns></returns>
-        [HttpPost("AddExperiance")]
-        public async Task<IActionResult> AddExperiance(List<AddExperianceDto> experiance)
+        [HttpPost("AddDesiredCompanies")]
+        public async Task<IActionResult> AddDesiredCompanies(List<DesiredCompaniesDto> desiredCompanies)
         {
             try
             {
-                List<Experiance> expList = new List<Experiance>();
-                foreach (var exp in experiance)
+                List<DesiredCompanies> companyList = new List<DesiredCompanies>();
+                foreach (var company in desiredCompanies)
                 {
-                    Experiance experinaceObj = new Experiance
+                    DesiredCompanies companyObj = new DesiredCompanies
                     {
                         Id = Guid.NewGuid(),
-                        UserId = exp.UserId,
-                        CompanyName = exp.CompanyName,
-                        ProfessionalExperience = exp.ProfessionalExperience,
-                        Role = exp.Role
+                        UserId = company.UserId,
+                        DesiredCompanyName=company.DesiredCompanyName,
+                        DesiredRole=company.DesiredRole,
                     };
-                    expList.Add(experinaceObj);
+                    companyList.Add(companyObj);
                 }
-                var result = await _experianceService.AddExperiance(expList);
-                var response = new ResponseStructure<List<Experiance>>
+                var result = await _desiredCompaniesService.AddDesiredCompanies(companyList);
+                var response = new ResponseStructure<List<DesiredCompanies>>
                 {
                     Success = true,
                     Data = result,
@@ -53,7 +52,7 @@ namespace WorkPathways.WorkPathways.Controllers
             }
             catch (Exception ex)
             {
-                var errorResponse = new ResponseStructure<Experiance>
+                var errorResponse = new ResponseStructure<DesiredCompanies>
                 {
                     Success = false,
                     Data = null,
@@ -67,13 +66,13 @@ namespace WorkPathways.WorkPathways.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet("GetExperianceByUserId/{userId}")]
-        public async Task<IActionResult> GetExperianceByUserId(Guid userId)
+        [HttpGet("GetDesiredCompaniesByUserId/{userId}")]
+        public async Task<IActionResult> GetDesiredCompaniesByUserId(Guid userId)
         {
             try
             {
-                var result= await _experianceService.GetExperianceByUserId(userId);
-                var response = new ResponseStructure<List<Experiance>>
+                var result = await _desiredCompaniesService.GetDesiredCompanyByUserId(userId);
+                var response = new ResponseStructure<List<DesiredCompanies>>
                 {
                     Success = true,
                     Data = result,
@@ -81,8 +80,9 @@ namespace WorkPathways.WorkPathways.Controllers
                 };
                 return Ok(response);
             }
-            catch (Exception ex) {
-                var errorResponse = new ResponseStructure<Experiance>
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponseStructure<DesiredCompanies>
                 {
                     Success = false,
                     Data = null,
@@ -92,18 +92,17 @@ namespace WorkPathways.WorkPathways.Controllers
             }
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="experiance"></param>
-        /// <returns></returns>
-        [HttpPost("UpdateExperiance")]
-        public async Task<IActionResult> UpdateExperiance(Experiance experiance)
+/// <summary>
+/// 
+/// </summary>
+/// <param name="desiredCompany"></param>
+/// <returns></returns>
+        [HttpPost("UpdateDesiredComapny")]
+        public async Task<IActionResult> UpdateDesiredComapny(DesiredCompanies desiredCompany)
         {
             try
             {
-                var result = await _experianceService.UpdateExperiance(experiance);
+                var result = await _desiredCompaniesService.UpdateDesiredCompany(desiredCompany);
                 var response = new ResponseStructure<string>
                 {
                     Success = true,
@@ -112,8 +111,9 @@ namespace WorkPathways.WorkPathways.Controllers
                 };
                 return Ok(response);
             }
-            catch (Exception ex) {
-                var errorResponse = new ResponseStructure<Experiance>
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponseStructure<DesiredCompanies>
                 {
                     Success = false,
                     Data = null,
@@ -128,12 +128,12 @@ namespace WorkPathways.WorkPathways.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpDelete("DeleteAllExperiancesByUserId/{userId}")]
+        [HttpDelete("DeleteAllDesiredCompaniesByUserId/{userId}")]
         public async Task<IActionResult> DeleteAllExperiancesByUserId(Guid userId)
         {
             try
             {
-                var result = await _experianceService.DeleteExperianceByUserId(userId);
+                var result = await _desiredCompaniesService.DeleteDesiredCompanyByUserId(userId);
                 var response = new ResponseStructure<string>
                 {
                     Success = true,
@@ -144,7 +144,7 @@ namespace WorkPathways.WorkPathways.Controllers
             }
             catch (Exception ex)
             {
-                var errorResponse = new ResponseStructure<Experiance>
+                var errorResponse = new ResponseStructure<DesiredCompanies>
                 {
                     Success = false,
                     Data = null,
@@ -153,6 +153,7 @@ namespace WorkPathways.WorkPathways.Controllers
                 return StatusCode(500, errorResponse);
             }
         }
+
 
     }
 }

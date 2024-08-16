@@ -15,10 +15,10 @@ builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<UserDataAccessService>();
 builder.Services.AddSingleton<ExperianceService>();
 builder.Services.AddSingleton<ExperianceDataAccessService>();
-/*builder.Services.AddSingleton<AccomplishmentsService>();
+builder.Services.AddSingleton<AccomplishmentsService>();
 builder.Services.AddSingleton<AccomplishmentsDataAccessService>();
 builder.Services.AddSingleton<DesiredCompaniesService>();
-builder.Services.AddSingleton<DesiredCompaniesDataAccessService>();*/
+builder.Services.AddSingleton<DesiredCompaniesDataAccessService>();
 
 var app = builder.Build();
 
