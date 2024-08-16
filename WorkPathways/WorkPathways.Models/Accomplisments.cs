@@ -8,11 +8,18 @@ namespace WorkPathways.WorkPathways.Models
         [BsonId]
         [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
-
         public Guid UserId { get; set; }
         public string? Awards { get; set; }
         public string? InCompany { get; set; }
         public string? AwardedFor { get; set; }
+    }
 
+    public class AccomplismentsDto
+    {
+        [BsonRepresentation(BsonType.String)]
+        public Guid UserId { get; set; }
+        public string? Awards { get; set; }
+        public string? InCompany { get; set; }
+        public string? AwardedFor { get; set; }
     }
 }
